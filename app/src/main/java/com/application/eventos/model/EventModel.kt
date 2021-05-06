@@ -10,5 +10,6 @@ data class EventModel (
     val longitude: String,
     val latitude: String,
     val price: Float,
-    val title: String
+    val title: String,
+    val id: Int
 )

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Eventos</string>
+    <string name="error_loading">An error occurred while loading data</string>
 </resources>
