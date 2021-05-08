@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface EventsApi {
-    @GET()
+
+    @GET("events")
     suspend fun getEvents(): Response<List<EventModel>>
 }
