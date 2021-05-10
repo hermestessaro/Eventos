@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -52,13 +53,19 @@ class DetailFragment: Fragment() {
         val builder = AlertDialog.Builder(context).setTitle(context?.getString(R.string.dialog_title))
         val view = requireActivity().layoutInflater.inflate(R.layout.custom_dialog, null)
         builder.setView(view)
-        builder.setPositiveButton("Check in", DialogInterface.OnClickListener { _, _ ->
+        builder.setPositiveButton("Check in") { _, _ ->
             val name = view.name_input.text.toString()
             val email = view.email_input.text.toString()
-            if(name != "" && email != ""){
+            if (name != "" && email != "") {
                 viewModel.doCheckin(viewModel.selectedEvent.value?.id.toString(), name, email)
+            } else {
+                Toast.makeText(
+                    context,
+                    context?.getString(R.string.empty_input),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        })
+        }
 
         builder.show()
     }

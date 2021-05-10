@@ -43,7 +43,7 @@
 
                     <TextView
                         android:id="@+id/event_title"
-                        style="@style/title"
+                        style="@style/detailTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{event.title}"
@@ -54,6 +54,7 @@
                         android:id="@+id/event_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        style="@style/detailText"
                         android:text='@{"Data: " + event.formattedDate}'
                         app:layout_constraintStart_toStartOf="@id/eventImage"
                         app:layout_constraintTop_toBottomOf="@id/event_title" />
@@ -62,6 +63,7 @@
                         android:id="@+id/event_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        style="@style/detailText"
                         android:text='@{"Entrada: " + event.formattedPrice}'
                         app:layout_constraintStart_toStartOf="@id/eventImage"
                         app:layout_constraintTop_toBottomOf="@id/event_date" />

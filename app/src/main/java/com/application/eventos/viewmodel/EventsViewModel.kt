@@ -1,5 +1,7 @@
 package com.application.eventos.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.application.eventos.api.EventsService
@@ -7,10 +9,11 @@ import com.application.eventos.model.EventModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 
-class EventsViewModel: ViewModel() {
+class EventsViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val eventsService = EventsService()
+    private val eventsService = EventsService(application)
 
     val events = MutableLiveData<List<EventModel>>()
     val selectedEvent = MutableLiveData<EventModel>()
@@ -34,28 +37,39 @@ class EventsViewModel: ViewModel() {
     private fun fetchFromRemote(){
         loading.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
-            val response = eventsService.getEvents()
-            if(response.isSuccessful){
-                events.postValue(response.body())
-                eventsLoadError.postValue(false)
+            try {
+                val response = eventsService.getEvents()
+                if(response.isSuccessful){
+                    events.postValue(response.body())
+                    eventsLoadError.postValue(false)
+                    loading.postValue(false)
+                } else {
+                    loading.postValue(false)
+                }
+            } catch (e: IOException){
                 loading.postValue(false)
-            } else {
-                loading.postValue(false)
+                eventsLoadError.postValue(true)
             }
         }
     }
 
     private fun fetchSpecificEvent(id: Int){
         loading.postValue(true)
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = eventsService.getEventById(id)
-            if(response.isSuccessful){
-                selectedEvent.postValue(response.body())
-                eventsLoadError.postValue(false)
-                loading.postValue(false)
-            } else {
-                loading.postValue(false)
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = eventsService.getEventById(id)
+                if(response.isSuccessful){
+                    selectedEvent.postValue(response.body())
+                    eventsLoadError.postValue(false)
+                    loading.postValue(false)
+                } else {
+                    loading.postValue(false)
+                }
             }
+        } catch (e: IOException) {
+            loading.postValue(false)
+            eventsLoadError.postValue(true)
         }
+
     }
 }

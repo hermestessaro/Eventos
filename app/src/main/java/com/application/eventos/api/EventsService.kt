@@ -1,14 +1,18 @@
 package com.application.eventos.api
 
+import android.content.Context
 import com.application.eventos.model.EventModel
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class EventsService {
+class EventsService(context: Context) {
 
     private val BASE_URL = "https://5f5a8f24d44d640016169133.mockapi.io/api/"
 
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(NetworkInterceptor(context))
     private val api = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
