@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Eventos</string>
     <string name="error_loading">An error occurred while loading data</string>
+    <string name="checkin">Check In</string>
+    <string name="dialog_title">Inform your data</string>
+    <string name="name">Name:</string>
+    <string name="email">Email:</string>
 </resources>

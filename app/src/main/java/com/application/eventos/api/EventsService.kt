@@ -18,4 +18,12 @@ class EventsService {
     suspend fun getEvents(): Response<List<EventModel>> {
         return api.getEvents()
     }
+
+    suspend fun getEventById(id: Int): Response<EventModel> {
+        return api.getEventById(id)
+    }
+
+    suspend fun doCheckin(eventId: String, name: String, email: String): Response<Any> {
+        return api.doCheckin(eventId, name, email)
+    }
 }

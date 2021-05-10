@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.eventos.R
 import com.application.eventos.adapters.EventAdapter
 import com.application.eventos.databinding.FragmentListBinding
-import com.application.eventos.viewmodel.ListViewModel
-import kotlinx.android.synthetic.main.fragment_list.*
+import com.application.eventos.viewmodel.EventsViewModel
 
 class ListFragment: Fragment() {
 
     private lateinit var binding: FragmentListBinding
-    private val viewModel: ListViewModel by viewModels()
-    private val eventsAdapter = EventAdapter(arrayListOf())
+    private lateinit var viewModel: EventsViewModel
+    private lateinit var eventsAdapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,8 @@ class ListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel = ViewModelProviders.of(requireActivity()).get(EventsViewModel::class.java)
+        eventsAdapter = EventAdapter(arrayListOf(), viewModel)
         viewModel.refresh()
 
         binding.eventsList.apply {
